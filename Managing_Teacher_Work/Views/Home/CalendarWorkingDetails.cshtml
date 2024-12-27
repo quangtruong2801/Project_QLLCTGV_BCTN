@@ -1,0 +1,158 @@
+﻿@using Managing_Teacher_Work.Models;
+@{
+    ViewBag.Title = "CalendarWorkingDetails";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+    var Cal = (CalendarWorking)ViewBag.Cw;
+    var teacherbyID = (Teacher)ViewBag.teacher;
+    var typecalByID = (TypeCalendar)ViewBag.typecalendar;
+    var workbyID = (Work)ViewBag.work;
+}
+<script>
+    function cancel() {
+        if ((document.referrer.toString().indexOf("/Home/") != -1) || document.referrer.toString().indexOf("/Calendar-Working-Detail-Level2/")) {
+            window.location = "/Home/";
+        }
+    }
+</script>
+
+
+<div class="calendar-details-container">
+    <div class="header">
+        <h2 class="title"><b>@(Cal.Name_CalendarWorking ?? "Không có tiêu đề")</b></h2>
+    </div>
+
+    <div class="details">
+        <div class="detail-item">
+            <span class="label"><i class="fa fa-calendar"></i> Thời gian thực hiện:</span>
+            <span class="value">Từ ngày <b>@Cal.DateStart.ToString("dd/MM/yyyy")</b> đến ngày <b>@Cal.DateEnd.ToString("dd/MM/yyyy")</b></span>
+        </div>
+        <div class="detail-item">
+            <span class="label"><i class="fa fa-list"></i> Loại lịch công tác:</span>
+            <span class="value">@typecalByID.TypeName</span>
+        </div>
+        <div class="detail-item">
+            <span class="label"><i class="fa fa-user"></i> Giáo viên phụ trách:</span>
+            <span class="value">@teacherbyID.Name_Teacher</span>
+        </div>
+    </div>
+
+    <div class="description">
+        <h4 class="section-title"><i><b>Nội dung công việc:</b></i></h4>
+        <div class="content">
+            @if (!string.IsNullOrEmpty(Cal.Description))
+            {
+                <p>@Html.Raw(Cal.Description)</p>
+            }
+            else
+            {
+                <p>Không có dữ liệu</p>
+            }
+        </div>
+    </div>
+
+    <div class="actions">
+        <a class="btn btn-primary" href="/Calendar-Working-Detail-Level2/@Cal.ID">Xem chi tiết</a>
+        <button class="btn btn-search" onclick="cancel();">
+            <i class="fa fa-undo"></i>&nbsp;Quay lại
+        </button>
+    </div>
+</div>
+
+<style>
+    .calendar-details-container {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .title {
+        color: #333;
+        font-size: 24px;
+        text-transform: capitalize;
+    }
+
+    .details, .description {
+        margin-bottom: 20px;
+    }
+
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        font-size: 16px;
+        padding: 8px;
+        border-bottom: 1px dashed #ddd;
+    }
+
+    .label {
+        font-weight: bold;
+        color: #555;
+        flex-basis: 40%;
+        text-align: left;
+    }
+
+    .value {
+        flex-basis: 60%;
+        text-align: left;
+        color: #333;
+    }
+
+    .section-title {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 5px;
+    }
+
+    .content {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.5;
+    }
+
+    .actions {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-primary {
+        background-color: orangered;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        text-decoration: none;
+    }
+
+        .btn-primary:hover {
+            background-color: darkred;
+        }
+
+    .btn-search {
+        background-color: orangered;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+        .btn-search:hover {
+            background-color: darkred;
+        }
+</style>
+
+

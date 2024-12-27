@@ -1,0 +1,164 @@
+﻿@using Managing_Teacher_Work.Models;
+@{
+    var listMenu = (List<Menu>)ViewBag.listMenu;
+    var session = (Managing_Teacher_Work.Common.UserLogin)Session[Managing_Teacher_Work.Common.CommonConstants.USER_SESSION];
+}
+<div class="menu_section">
+    <h3>Menu hệ thống</h3>
+    <ul class="nav side-menu">
+        <!-- Trang chủ -->
+        <li>
+            @if (session.GroupID == "ADMIN")
+            {
+                <a href="/Statistics/"><i class="fa fa-home"></i>&nbsp;Trang chủ</a>
+            }
+            else
+            {
+                <a href="/Home/"><i class="fa fa-home"></i>&nbsp;Trang chủ</a>
+            }
+        </li>
+
+        <!-- Quản lý hệ thống -->
+        @if (session.GroupID == "ADMIN")
+        {
+            <li>
+                <a href="javascript:void(0);">
+                    <i class="fa fa-server"></i>&nbsp;Quản lý hệ thống
+                    <span class="fa fa-chevron-down"></span>
+                </a>
+                <ul class="nav child_menu" style="display: none;">
+                    @* Các mục quản lý được hiển thị dựa trên GroupID *@
+
+                    @if (session.GroupID == "ADMIN")
+                    {
+                        <li><a href="/GroupUser/"><i class="fa fa-users"></i>&nbsp;Quản lý nhóm người dùng</a></li>
+                        <li><a href="/User/"><i class="fa fa-user"></i>&nbsp;Quản lý người dùng</a></li>
+                        <li><a href="/Menu/"><i class="fa fa-list"></i>&nbsp;Quản lý menu</a></li>
+                        //<li><a href="/Statistics/"><i class="fa fa-chart-line"></i>&nbsp;Thống kê hệ thống</a></li>
+
+                    }
+
+                </ul>
+            </li>
+        }
+
+        <!-- Quản lý chung -->
+        @if (@* session.GroupID == "ADMIN" || session.GroupID == "QLHV" || *@ session.GroupID == "QLCC")
+{
+    <li>
+        <a href="javascript:void(0);">
+            <i class="fa fa-briefcase"></i>&nbsp;Quản lý chung
+            <span class="fa fa-chevron-down"></span>
+        </a>
+        <ul class="nav child_menu" style="display: none;">
+            @* Các mục quản lý được hiển thị dựa trên GroupID *@
+
+            @if (session.GroupID == "ADMIN")
+            {
+                <li><a href="/Sciense/"><i class="fa fa-university"></i>&nbsp;Quản lý Khoa và Viện</a></li>
+                <li><a href="/Class/"><i class="fa fa-university"></i>&nbsp;Quản lý lớp</a></li>
+                <li><a href="/Teacher/"><i class="fa fa-user"></i>&nbsp;Quản lý giáo viên</a></li>
+                <li><a href="/Student/"><i class="fa fa-graduation-cap"></i>&nbsp;Quản lý sinh viên</a></li>
+            }
+
+            @if (session.GroupID == "QLHV")
+            {
+                <li><a href="/Teacher/"><i class="fa fa-user"></i>&nbsp;Quản lý giáo viên</a></li>
+                <li><a href="/Student/"><i class="fa fa-graduation-cap"></i>&nbsp;Quản lý sinh viên</a></li>
+            }
+
+            @if (session.GroupID == "QLCC")
+            {
+
+                <li><a href="/Class/"><i class="fa fa-university"></i>&nbsp;Quản lý lớp</a></li>
+                <li><a href="/Sciense/"><i class="fa fa-university"></i>&nbsp;Quản lý Khoa và Viện</a></li>
+                <li><a href="/Teacher/"><i class="fa fa-user"></i>&nbsp;Quản lý giáo viên</a></li>
+                <li><a href="/Student/"><i class="fa fa-graduation-cap"></i>&nbsp;Quản lý sinh viên</a></li>
+            }
+        </ul>
+    </li>
+}
+
+        <!-- Quản lý công việc -->
+        @if (@* session.GroupID == "ADMIN" || *@ session.GroupID == "QLHV")
+{
+    <li>
+        <a href="javascript:void(0);">
+            <i class="fa fa-briefcase"></i>&nbsp;Quản lý công việc
+            <span class="fa fa-chevron-down"></span>
+        </a>
+        <ul class="nav child_menu" style="display: none;">
+            @* Các mục quản lý được hiển thị dựa trên GroupID *@
+
+            @if (session.GroupID == "ADMIN")
+            {
+                <li><a href="/Work/"><i class="fa fa-briefcase"></i>&nbsp;Quản lý công việc</a></li>
+                <li><a href="/CalendarWorking/"><i class="fa fa-calendar"></i>&nbsp;Quản lý lịch công tác</a></li>
+                <li><a href="/TypeCalendar/"><i class="fa fa-calendar-times"></i>&nbsp;Quản lý loại lịch công tác</a></li>
+            }
+
+            @if (session.GroupID == "QLHV")
+            {
+                <li><a href="/Work/"><i class="fa fa-briefcase"></i>&nbsp;Quản lý công việc</a></li>
+                <li><a href="/CalendarWorking/"><i class="fa fa-calendar"></i>&nbsp;Quản lý lịch công tác</a></li>
+                <li><a href="/TypeCalendar/"><i class="fa fa-calendar-times"></i>&nbsp;Quản lý loại lịch công tác</a></li>
+            }
+
+        </ul>
+    </li>
+}
+
+        <!-- Học vụ -->
+        @if (session.GroupID == "MEMBER")
+        {
+            <li>
+                <a href="javascript:void(0);">
+                    <i class="fa fa-cogs"></i>&nbsp;Danh sách
+                    <span class="fa fa-chevron-down"></span>
+                </a>
+                <ul class="nav child_menu" style="display: none;">
+                    @* Các mục học vụ được hiển thị dựa trên GroupID *@
+                    <li><a href="/Home-ManageStudent/"><i class="fa fa-graduation-cap"></i>&nbsp;Danh sách sinh viên</a></li>
+                    <li><a href="/Home-ManageTeacher/"><i class="fa fa-university"></i>&nbsp;Danh sách giáo viên</a></li>
+                </ul>
+            </li>
+        }
+        @if (@* session.GroupID == "ADMIN" || *@ session.GroupID == "MEMBER" || session.GroupID == "QLHV")
+        {
+            <li><a href="/Report/"><i class="fa fa-credit-card"></i> Tạo Báo cáo tháng</a></li>
+        }
+
+        @if (@* session.GroupID == "ADMIN" || *@ session.GroupID == "QLHV")
+        {
+            <li>
+                <a href="/Statistics-Report/"><i class="fa fa-sort-numeric-up"></i>&nbsp;Thống kê báo cáo tháng</a>
+            </li>
+            
+        }
+        <li>
+            <a href="/Event/"><i class="fa fa-calendar-check"></i>&nbsp;Nhật ký sự kiện</a>
+        </li>
+
+        <li>
+            <a href="/Home-ManageNote/"><i class="fa fa-sticky-note"></i>&nbsp;Ghi chú công việc</a>
+        </li>
+
+        <li>
+            <a href="/Extention/"><i class="fa fa-cloud"></i>&nbsp;Tiện ích</a>
+        </li>
+
+    </ul>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.side-menu li > a').click(function (e) {
+            var $parent = $(this).parent(); // Lấy phần tử cha (li)
+            if ($parent.find('.child_menu').length > 0) {
+                e.preventDefault(); // Ngăn chuyển trang
+                $parent.toggleClass('active'); // Thêm/lấy class active
+                $parent.find('.child_menu').slideToggle(); // Mở/đóng menu con
+            }
+        });
+    });
+</script>

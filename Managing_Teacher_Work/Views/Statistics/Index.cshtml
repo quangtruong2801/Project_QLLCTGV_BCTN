@@ -1,0 +1,134 @@
+﻿@{
+
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml"; // Đảm bảo LayoutIndex tồn tại
+}
+<style>
+    .stat-box {
+        padding: 20px;
+        text-align: center;
+        border-radius: 5px;
+        color: white;
+        margin-bottom: 20px;
+    }
+
+        .stat-box h3 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        .stat-box p {
+            font-size: 1.2em;
+            margin: 5px 0 0;
+        }
+
+    .bg-primary {
+        background-color: #007bff;
+    }
+
+    .bg-success {
+        background-color: #28a745;
+    }
+
+    .bg-warning {
+        background-color: #ffc107;
+    }
+
+    .bg-danger {
+        background-color: #dc3545;
+    }
+
+    .bg-info {
+        background-color: #17a2b8;
+    }
+
+</style>
+<h2>Thống kê hệ thống</h2>
+
+<div class="row">
+    <!-- Hiển thị số liệu -->
+    <div class="col-md-3">
+        <div class="stat-box bg-primary">
+            <h3>@ViewBag.UserCount</h3>
+            <p>Người dùng</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-box bg-success">
+            <h3>@ViewBag.StudentCount</h3>
+            <p>Sinh viên</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-box bg-warning">
+            <h3>@ViewBag.TeacherCount</h3>
+            <p>Giáo viên</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-box bg-danger">
+            <h3>@ViewBag.ClassCount</h3>
+            <p>Lớp</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-box bg-info">
+            <h3>@ViewBag.ScienceCount</h3>
+            <p>Khoa và Viện</p>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<!-- Biểu đồ -->
+<div class="row">
+    <div class="col-md-12">
+        <canvas id="statisticsChart" width="400" height="200"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var ctx = document.getElementById('statisticsChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar', // Dạng biểu đồ
+            data: {
+                labels: ['Người dùng', 'Sinh viên', 'Giáo viên', 'Lớp', 'Khoa và Viện'], // Tên cột
+                datasets: [{
+                    label: 'Thống kê số lượng',
+                    data: [
+                        @ViewBag.UserCount,
+                        @ViewBag.StudentCount,
+                        @ViewBag.TeacherCount,
+                        @ViewBag.ClassCount,
+                        @ViewBag.ScienceCount
+                    ],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(231, 74, 59, 0.6)',
+                        'rgba(123, 102, 255, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(231, 74, 59, 1)',
+                        'rgba(123, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>

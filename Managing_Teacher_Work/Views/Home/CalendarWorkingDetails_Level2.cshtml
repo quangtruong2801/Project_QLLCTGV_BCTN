@@ -1,0 +1,193 @@
+﻿@using Managing_Teacher_Work.Models;
+@{
+    ViewBag.Title = "CalendarWorkingDetails_Level2";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+    var Cal = (CalendarWorking)ViewBag.Calendarworking;
+    var teacherbyID = (Teacher)ViewBag.teacher;
+    var typecalByID = (TypeCalendar)ViewBag.typecalendar;
+    var workbyID = (Work)ViewBag.work;
+}
+<script>
+    function cancel() {
+        if ((document.referrer.toString().indexOf("/Calendar-Working-Detail/") != -1)) {
+            window.location = "/Calendar-Working-Detail/@Cal.ID";
+        }
+    }
+</script>
+<div class="calendar-details-container">
+    <div class="header">
+        <h2 class="title"><b>@(Cal.Name_CalendarWorking ?? "Không có tiêu đề")</b></h2>
+    </div>
+
+    <div class="details">
+        <div class="detail-item">
+            <span class="label"><i class="fa fa-user"></i> Người phụ trách:</span>
+            <span class="value">@teacherbyID.Name_Teacher</span>
+        </div>
+        <div class="detail-item">
+            <span class="label"><i class="fa fa-list"></i> Tình trạng thực hiện:</span>
+            <span class="value">
+                @if (Cal.WorkState == "DangThucHien")
+                {<span class="status in-progress">Đang thực hiện</span> }
+                else
+                { <span class="status completed">Đã hoàn thành</span>}
+        </span>
+    </div>
+    <div class="detail-item">
+        <span class="label"><i class="fa fa-calendar"></i> Loại lịch công tác:</span>
+        <span class="value">@typecalByID.TypeName</span>
+    </div>
+    <div class="detail-item">
+        <span class="label"><i class="fa fa-tasks"></i> Loại công việc:</span>
+        <span class="value">@workbyID.Name_Work</span>
+    </div>
+    <div class="detail-item">
+        <span class="label"><i class="fa fa-clock"></i> Thời gian thực hiện:</span>
+        <span class="value">Từ ngày <b>@Cal.DateStart.ToString("dd/MM/yyyy")</b> đến ngày <b>@Cal.DateEnd.ToString("dd/MM/yyyy")</b></span>
+    </div>
+    <div class="detail-item">
+        <span class="label"><i class="fa fa-map-marker"></i> Địa điểm:</span>
+        <span class="value">@(Cal.Address ?? "Không có địa điểm")</span>
+    </div>
+</div>
+
+<div class="description">
+    <h4 class="section-title"><i><b>Nội dung công việc:</b></i></h4>
+    <div class="content">
+        @if (Cal.Description != null)
+        {
+            <p>@Html.Raw(Cal.Description)</p>
+        }
+        else
+        {
+            <p>Không có dữ liệu</p>
+        }
+    </div>
+</div>
+
+<div class="attachments">
+    <h4 class="section-title"><i><b>Văn bản đính kèm:</b></i></h4>
+    <div class="content">
+        @if (!string.IsNullOrEmpty(Cal.Files))
+        {
+            <a href="@Cal.Files" class="attachment-link"><i class="fa fa-file-word-o"></i> Tải xuống</a>
+        }
+        else
+        {
+            <p>Không có tệp đính kèm</p>
+        }
+    </div>
+</div>
+
+<div class="actions">
+    <button class="btn btn-primary" onclick="cancel();">
+        <i class="fa fa-undo"></i>&nbsp;Quay lại
+    </button>
+</div>
+</div>
+
+<style>
+    .calendar-details-container {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .title {
+        color: #333;
+        font-size: 24px;
+        text-transform: capitalize;
+    }
+
+    .details, .description, .attachments {
+        margin-bottom: 20px;
+    }
+
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        font-size: 16px;
+        padding: 8px;
+        border-bottom: 1px dashed #ddd;
+    }
+
+    .label {
+        font-weight: bold;
+        color: #555;
+        flex-basis: 40%;
+        text-align: left;
+    }
+
+    .value {
+        flex-basis: 60%;
+        text-align: left;
+        color: #333;
+    }
+
+    .status.in-progress {
+        color: #FF0000;
+        font-weight: bold;
+    }
+
+    .status.completed {
+        color: #27ae60;
+        font-weight: bold;
+    }
+
+    .section-title {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 5px;
+    }
+
+    .content {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.5;
+    }
+
+        .content p {
+            margin: 0;
+        }
+
+    .attachments .attachment-link {
+        color: #007bff;
+        text-decoration: none;
+        font-size: 16px;
+    }
+
+        .attachments .attachment-link:hover {
+            text-decoration: underline;
+        }
+
+    .actions {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-primary {
+        background-color: orangered;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+        .btn-primary:hover {
+            background-color: darkred;
+        }
+</style>

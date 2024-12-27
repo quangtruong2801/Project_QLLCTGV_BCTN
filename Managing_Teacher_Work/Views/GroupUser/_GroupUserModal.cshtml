@@ -1,0 +1,78 @@
+﻿@{
+    var listGroup = (List<Managing_Teacher_Work.Models.GroupUser>)ViewBag.listGroup;
+}
+
+<script>
+    // Hàm validate khi submit form
+    function validate() {
+        if ($('#Name_GroupUser').val() == "") {
+            alert('Tên nhóm quyền không được để trống!');
+            return false;
+        }
+        return true;
+    }
+
+    // Hàm xử lý khi mở modal (dùng để cập nhật dữ liệu nhóm quyền)
+    function openModal(groupUser) {
+        if (groupUser) {
+            // Nếu là sửa, điền dữ liệu vào form
+            $('#ID').val(groupUser.ID);
+            $('#Name_GroupUser').val(groupUser.Name_GroupUser);
+            $('#CodeRole').val(groupUser.CodeRole);
+
+            // Thay đổi tên nút từ "Thêm" thành "Cập Nhật"
+            $('#bt_them').hide();
+            $('#bt_sua').show();
+        } else {
+            // Nếu là thêm mới, reset form
+            $('#ID').val(0);
+            $('#Name_GroupUser').val('');
+            $('#CodeRole').val('');
+
+            // Hiển thị nút "Thêm" và ẩn nút "Cập Nhật"
+            $('#bt_them').show();
+            $('#bt_sua').hide();
+        }
+    }
+</script>
+
+<script src="~/assets/vendors/validator/validator.min.js"></script>
+
+<form action="/GroupUser/Add" method="post" class="needs-validation">
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <label id="lblresult"></label>
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Quản lý nhóm quyền</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <label>ID nhóm quyền<span style="color:red">(*)</span></label>
+                    <input class="form-control" type="text" id="ID" name="ID" />
+                    <div class="form-group">
+                        <label>Tên nhóm quyền<span style="color:red">(*)</span></label>
+                        <input class="form-control" type="text" id="Name_GroupUser" name="Name_GroupUser" />
+                    </div>
+                    <div class="form-group">
+                        <label>Mã quyền<span style="color:red">(*)</span></label>
+                        <input class="form-control" type="text" id="CodeRole" name="CodeRole" />
+                    </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">
+                        <i class="fa fa-lightbulb-o"></i>&nbsp; Đóng
+                    </button>
+                    <button type="reset" class="btn btn-warning btn-sm">
+                        <i class="fa fa-map-marker"></i>&nbsp; Làm mới
+                    </button>
+                    <input type="submit" name="submit" class="btn btn-success btn-sm" id="bt_sua" value="Cập Nhật" onclick="return validate();" style="display:none;" />
+                    <input type="submit" name="submit" class="btn btn-success btn-sm" id="bt_them" value="Thêm" onclick="return validate();" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

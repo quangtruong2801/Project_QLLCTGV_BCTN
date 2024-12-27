@@ -1,0 +1,135 @@
+﻿
+@{
+    ViewBag.Title = "Extention";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+    var session = (Managing_Teacher_Work.Common.UserLogin)Session[Managing_Teacher_Work.Common.CommonConstants.USER_SESSION];
+
+}
+<style>
+    /* Container bao bọc toàn bộ nội dung */
+    .container {
+        width: 100%; /* Chiếm toàn bộ chiều rộng màn hình */
+        height: 100vh; /* Chiếm toàn bộ chiều cao màn hình */
+        box-sizing: border-box; /* Đảm bảo padding không ảnh hưởng đến kích thước tổng thể */
+    }
+
+    /* Căn chỉnh header với các nút tìm kiếm */
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    #temp, #humidity-div {
+        font-family: "Courier New", monospace;
+        font-weight: bold;
+        font-size: 50px;
+        color: #333;
+    }
+
+    .city-icon-holder {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    #city-name {
+        font-family: "Courier New", monospace;
+        font-size: 32px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    #icon {
+        width: 70%;
+        max-width: 120px;
+        margin-top: 10px;
+    }
+
+    .temperature, .humidity {
+        text-align: center;
+        font-size: 40px;
+        font-weight: bold;
+        color: #2a3f54;
+    }
+
+    /* Nút tìm kiếm */
+    #search-btn {
+        margin-top: 20px;
+        width: 20%;
+        background-color: #28a745;
+        color: white;
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    /* Định dạng cho ô tìm kiếm */
+    #search-txt {
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        width: 100%;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    /* Cải thiện giao diện của panel */
+    .x_panel {
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: white;
+        overflow: hidden;
+    }
+
+    /* Tiêu đề của panel */
+    .x_title {
+        background-color: #2a3f54;
+        color: white;
+        border-radius: 8px 8px 0 0;
+        padding: 15px;
+        text-align: center;
+    }
+
+    /* Nội dung của panel */
+    .x_content {
+        padding: 30px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Tiện ích thời tiết</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @if (TempData["AlertMessage"] != null)
+                {
+                    <div id="AlertBox" class="alert @TempData["AlertType"] hide" role="alert">
+                    @TempData["AlertMessage"]
+                    </div>}
+
+                <!-- Form tìm kiếm thành phố -->
+                <div class="header">
+                    <input type="text" placeholder="Nhập tên thành phố cần xem" id="search-txt" class="form-control" />
+                    <button id="search-btn" class="btn btn-success">Tìm kiếm &nbsp;<i class="fa fa-search"></i></button>
+                </div>
+
+                <!-- Hiển thị thông tin thời tiết -->
+                <main id="main">
+                    <div class="city-icon">
+                        <div class="city-icon-holder">
+                            <div id="city-name"></div>
+                            <img src="" alt="" id="icon" />
+                        </div>
+                    </div>
+                    <div class="temperature">
+                        <div id="temp"></div>
+                    </div>
+                    <div class="humidity">
+                        <div id="humidity-div"></div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+</div>
